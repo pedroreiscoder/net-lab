@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Imposto.Core.Domain
 {
@@ -17,7 +19,7 @@ namespace Imposto.Core.Domain
         public string EstadoDestino { get; set; }
         public string EstadoOrigem { get; set; }
 
-        public IEnumerable<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
+        public List<NotaFiscalItem> ItensDaNotaFiscal { get; set; }
 
         public NotaFiscal()
         {
@@ -36,6 +38,7 @@ namespace Imposto.Core.Domain
             foreach (PedidoItem itemPedido in pedido.ItensDoPedido)
             {
                 NotaFiscalItem notaFiscalItem = new NotaFiscalItem();
+
                 if ((this.EstadoOrigem == "SP") && (this.EstadoDestino == "RJ"))
                 {
                     notaFiscalItem.Cfop = "6.000";                    
@@ -124,6 +127,7 @@ namespace Imposto.Core.Domain
                 {
                     notaFiscalItem.Cfop = "6.010";
                 }
+
                 if (this.EstadoDestino == this.EstadoOrigem)
                 {
                     notaFiscalItem.TipoIcms = "60";
@@ -134,6 +138,7 @@ namespace Imposto.Core.Domain
                     notaFiscalItem.TipoIcms = "10";
                     notaFiscalItem.AliquotaIcms = 0.17;
                 }
+
                 if (notaFiscalItem.Cfop == "6.009")
                 {
                     notaFiscalItem.BaseIcms = itemPedido.ValorItemPedido*0.90; //redução de base
@@ -142,6 +147,7 @@ namespace Imposto.Core.Domain
                 {
                     notaFiscalItem.BaseIcms = itemPedido.ValorItemPedido;
                 }
+
                 notaFiscalItem.ValorIcms = notaFiscalItem.BaseIcms*notaFiscalItem.AliquotaIcms;
 
                 if (itemPedido.Brinde)
@@ -150,9 +156,19 @@ namespace Imposto.Core.Domain
                     notaFiscalItem.AliquotaIcms = 0.18;
                     notaFiscalItem.ValorIcms = notaFiscalItem.BaseIcms * notaFiscalItem.AliquotaIcms;
                 }
+
                 notaFiscalItem.NomeProduto = itemPedido.NomeProduto;
                 notaFiscalItem.CodigoProduto = itemPedido.CodigoProduto;
-            }            
+
+                this.ItensDaNotaFiscal.Add(notaFiscalItem);
+            }
+
+            XmlSerializer xs = new XmlSerializer(typeof(NotaFiscal));
+
+            using (StreamWriter wr = new StreamWriter(@"C:\Users\pedro\OneDrive\Documentos\net-lab\TesteImposto\TesteImposto\bin\Debug\notafiscal.xml"))
+            {
+                xs.Serialize(wr, this);
+            }
         }
     }
 }
