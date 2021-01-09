@@ -24,33 +24,20 @@ CREATE PROCEDURE dbo.P_NOTA_FISCAL
 )
 AS
 BEGIN
-	IF (@pId = 0)
-	BEGIN 
-		INSERT INTO [dbo].[NotaFiscal]
-           ([NumeroNotaFiscal]
-           ,[Serie]
-           ,[NomeCliente]
-           ,[EstadoDestino]
-           ,[EstadoOrigem])
-		VALUES
-           (@pNumeroNotaFiscal
-           ,@pSerie
-           ,@pNomeCliente
-           ,@pEstadoDestino
-           ,@pEstadoOrigem)
+	INSERT INTO [dbo].[NotaFiscal]
+	   ([NumeroNotaFiscal]
+	   ,[Serie]
+	   ,[NomeCliente]
+	   ,[EstadoDestino]
+	   ,[EstadoOrigem])
+	VALUES
+	   (@pNumeroNotaFiscal
+	   ,@pSerie
+	   ,@pNomeCliente
+	   ,@pEstadoDestino
+	   ,@pEstadoOrigem)
 
-		SET @pId = @@IDENTITY
-	END
-	ELSE
-	BEGIN
-		UPDATE [dbo].[NotaFiscal]
-		SET [NumeroNotaFiscal] = @pNumeroNotaFiscal
-		  ,[Serie] = @pSerie
-		  ,[NomeCliente] = @pNomeCliente
-		  ,[EstadoDestino] = @pEstadoDestino
-		  ,[EstadoOrigem] = @pEstadoOrigem
-		WHERE Id = @pId
-	END	    
+	SET @pId = @@IDENTITY
 END
 GO
 GRANT EXECUTE ON dbo.P_NOTA_FISCAL TO [public]
