@@ -70,6 +70,13 @@ namespace TesteImposto
 
             _notaFiscalService.GerarNotaFiscal(pedido);
             MessageBox.Show("Operação efetuada com sucesso");
+
+            textBoxNomeCliente.Clear();
+            txtEstadoOrigem.Clear();
+            txtEstadoDestino.Clear();
+
+            for (int i = dataGridViewPedidos.Rows.Count - 2; i >= 0; i--)
+                dataGridViewPedidos.Rows.RemoveAt(i);
         }
     }
 }
