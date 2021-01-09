@@ -126,6 +126,7 @@ namespace Imposto.Core.Service
                 notaFiscal.ItensDaNotaFiscal.Add(notaFiscalItem);
             }
 
+            _notaFiscalRepository.EmitirNotaFiscalXML(notaFiscal);
             _notaFiscalRepository.EmitirNotaFiscal(notaFiscal);
         }
     }

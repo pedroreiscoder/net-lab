@@ -10,13 +10,16 @@ namespace Imposto.Core.Data
 {
     public class NotaFiscalRepository : INotaFiscalRepository
     {
-        public void EmitirNotaFiscal(NotaFiscal notaFiscal)
+        public void EmitirNotaFiscalXML(NotaFiscal notaFiscal)
         {
             XmlSerializer xs = new XmlSerializer(typeof(NotaFiscal));
 
             using (StreamWriter wr = new StreamWriter(@"C:\Users\pedro\OneDrive\Documentos\net-lab\TesteImposto\TesteImposto\bin\Debug\notafiscal.xml"))
                 xs.Serialize(wr, notaFiscal);
+        }
 
+        public void EmitirNotaFiscal(NotaFiscal notaFiscal)
+        {
             string connectionString = ConfigurationManager.ConnectionStrings["NotaFiscalConnection"].ConnectionString;
 
             using (SqlConnection connection = new SqlConnection(connectionString))
