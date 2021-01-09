@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Imposto.Core.Data;
+using Imposto.Core.Service;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,15 +11,23 @@ namespace TesteImposto
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        static IServiceProvider ServiceProvider { get; set; }
+
+        static void ConfigureServices()
+        {
+            ServiceCollection services = new ServiceCollection();
+            services.AddScoped<INotaFiscalService, NotaFiscalService>();
+            services.AddScoped<INotaFiscalRepository, NotaFiscalRepository>();
+            ServiceProvider = services.BuildServiceProvider();
+        }
+
         [STAThread]
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FormImposto());
+            ConfigureServices();
+            Application.Run(new FormImposto((INotaFiscalService)ServiceProvider.GetService(typeof(INotaFiscalService))));
         }
     }
 }

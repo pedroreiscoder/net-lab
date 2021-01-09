@@ -14,11 +14,13 @@ namespace TesteImposto
 {
     public partial class FormImposto : Form
     {
+        private readonly INotaFiscalService _notaFiscalService;
         private Pedido pedido = new Pedido();
 
-        public FormImposto()
+        public FormImposto(INotaFiscalService notaFiscalService)
         {
             InitializeComponent();
+            _notaFiscalService = notaFiscalService;
             dataGridViewPedidos.AutoGenerateColumns = true;                       
             dataGridViewPedidos.DataSource = GetTablePedidos();
             ResizeColumns();
@@ -48,7 +50,6 @@ namespace TesteImposto
 
         private void buttonGerarNotaFiscal_Click(object sender, EventArgs e)
         {            
-            NotaFiscalService service = new NotaFiscalService();
             pedido.EstadoOrigem = txtEstadoOrigem.Text;
             pedido.EstadoDestino = txtEstadoDestino.Text;
             pedido.NomeCliente = textBoxNomeCliente.Text;
@@ -67,7 +68,7 @@ namespace TesteImposto
                     });
             }
 
-            service.GerarNotaFiscal(pedido);
+            _notaFiscalService.GerarNotaFiscal(pedido);
             MessageBox.Show("Operação efetuada com sucesso");
         }
     }
