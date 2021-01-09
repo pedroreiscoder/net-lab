@@ -120,6 +120,11 @@ namespace Imposto.Core.Service
                     notaFiscalItem.BaseIcms = itemPedido.ValorItemPedido;
 
                 notaFiscalItem.ValorIcms = notaFiscalItem.BaseIcms * notaFiscalItem.AliquotaIcms;
+
+                notaFiscalItem.BaseIpi = itemPedido.ValorItemPedido;
+                notaFiscalItem.AliquotaIpi = itemPedido.Brinde ? 0 : 0.10;
+                notaFiscalItem.ValorIpi = notaFiscalItem.BaseIpi * notaFiscalItem.AliquotaIpi;
+
                 notaFiscalItem.NomeProduto = itemPedido.NomeProduto;
                 notaFiscalItem.CodigoProduto = itemPedido.CodigoProduto;
 

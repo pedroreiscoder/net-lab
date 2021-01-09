@@ -9,6 +9,9 @@
         public double BaseIcms { get; set; }
         public double AliquotaIcms { get; set; }
         public double ValorIcms { get; set; }
+        public double BaseIpi { get; set; }
+        public double AliquotaIpi { get; set; }
+        public double ValorIpi { get; set; }
         public string NomeProduto { get; set; }
         public string CodigoProduto { get; set; }
     }
