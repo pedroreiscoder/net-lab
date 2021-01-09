@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -37,7 +38,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.dataGridViewPedidos = new System.Windows.Forms.DataGridView();
             this.buttonGerarNotaFiscal = new System.Windows.Forms.Button();
+            this.errorProvider1 = new System.Windows.Forms.ErrorProvider(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPedidos)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -80,6 +83,7 @@
             this.txtEstadoOrigem.Name = "txtEstadoOrigem";
             this.txtEstadoOrigem.Size = new System.Drawing.Size(939, 20);
             this.txtEstadoOrigem.TabIndex = 4;
+            this.txtEstadoOrigem.Validating += new System.ComponentModel.CancelEventHandler(this.txtEstadoOrigem_Validating);
             // 
             // txtEstadoDestino
             // 
@@ -87,6 +91,7 @@
             this.txtEstadoDestino.Name = "txtEstadoDestino";
             this.txtEstadoDestino.Size = new System.Drawing.Size(939, 20);
             this.txtEstadoDestino.TabIndex = 5;
+            this.txtEstadoDestino.Validating += new System.ComponentModel.CancelEventHandler(this.txtEstadoDestino_Validating);
             // 
             // label4
             // 
@@ -116,6 +121,10 @@
             this.buttonGerarNotaFiscal.UseVisualStyleBackColor = true;
             this.buttonGerarNotaFiscal.Click += new System.EventHandler(this.buttonGerarNotaFiscal_Click);
             // 
+            // errorProvider1
+            // 
+            this.errorProvider1.ContainerControl = this;
+            // 
             // FormImposto
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,6 +142,7 @@
             this.Name = "FormImposto";
             this.Text = "Calculo de imposto";
             ((System.ComponentModel.ISupportInitialize)(this.dataGridViewPedidos)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.errorProvider1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -149,6 +159,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.DataGridView dataGridViewPedidos;
         private System.Windows.Forms.Button buttonGerarNotaFiscal;
+        private System.Windows.Forms.ErrorProvider errorProvider1;
     }
 }
 
