@@ -61,10 +61,10 @@ namespace TesteImposto
                 pedido.ItensDoPedido.Add(
                     new PedidoItem()
                     {
-                        Brinde = Convert.ToBoolean(row["Brinde"]),
+                        Brinde = row["Brinde"] != DBNull.Value ? Convert.ToBoolean(row["Brinde"]) : false,
                         CodigoProduto =  row["Codigo do produto"].ToString(),
                         NomeProduto = row["Nome do produto"].ToString(),
-                        ValorItemPedido = Convert.ToDouble(row["Valor"].ToString())            
+                        ValorItemPedido = row["Valor"] != DBNull.Value ? Convert.ToDouble(row["Valor"]) : 0            
                     });
             }
 

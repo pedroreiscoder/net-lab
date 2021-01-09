@@ -1,4 +1,5 @@
 ﻿using Imposto.Core.Domain;
+using System;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,6 +21,10 @@ namespace Imposto.Core.Data
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
+                connection.Open();
+
+                int notaFiscalId;
+
                 using (SqlCommand command = new SqlCommand("dbo.P_NOTA_FISCAL", connection))
                 {
                     command.CommandType = CommandType.StoredProcedure;
@@ -30,10 +35,40 @@ namespace Imposto.Core.Data
                     command.Parameters.Add("@pNomeCliente", SqlDbType.VarChar).Value = notaFiscal.NomeCliente;
                     command.Parameters.Add("@pEstadoDestino", SqlDbType.VarChar).Value = notaFiscal.EstadoDestino;
                     command.Parameters.Add("@pEstadoOrigem", SqlDbType.VarChar).Value = notaFiscal.EstadoOrigem;
-
-                    connection.Open();
+                    
                     command.ExecuteNonQuery();
+
+                    notaFiscalId = Convert.ToInt32(command.Parameters["@pId"].Value);
                 }
+
+                using (SqlCommand command = new SqlCommand("dbo.P_NOTA_FISCAL_ITEM", connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    command.Parameters.Add("@pIdNotaFiscal", SqlDbType.Int).Value = notaFiscalId;
+                    command.Parameters.Add("@pCfop", SqlDbType.VarChar);
+                    command.Parameters.Add("@pTipoIcms", SqlDbType.VarChar);
+                    command.Parameters.Add("@pBaseIcms", SqlDbType.Decimal);
+                    command.Parameters.Add("@pAliquotaIcms", SqlDbType.Decimal);
+                    command.Parameters.Add("@pValorIcms", SqlDbType.Decimal);
+                    command.Parameters.Add("@pNomeProduto", SqlDbType.VarChar);
+                    command.Parameters.Add("@pCodigoProduto", SqlDbType.VarChar);
+
+                    foreach (NotaFiscalItem item in notaFiscal.ItensDaNotaFiscal)
+                    {
+                        command.Parameters["@pCfop"].Value = item.Cfop;
+                        command.Parameters["@pTipoIcms"].Value = item.TipoIcms;
+                        command.Parameters["@pBaseIcms"].Value = item.BaseIcms;
+                        command.Parameters["@pAliquotaIcms"].Value = item.AliquotaIcms;
+                        command.Parameters["@pValorIcms"].Value = item.ValorIcms;
+                        command.Parameters["@pNomeProduto"].Value = item.NomeProduto;
+                        command.Parameters["@pCodigoProduto"].Value = item.CodigoProduto;
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+
+                connection.Close();
             }
         }
     }
