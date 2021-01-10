@@ -1,6 +1,7 @@
 ﻿using Imposto.Core.Data;
 using Imposto.Core.Domain;
 using System;
+using System.Linq;
 
 namespace Imposto.Core.Service
 {
@@ -22,6 +23,8 @@ namespace Imposto.Core.Service
             notaFiscal.NomeCliente = pedido.NomeCliente;
             notaFiscal.EstadoDestino = pedido.EstadoDestino;
             notaFiscal.EstadoOrigem = pedido.EstadoOrigem;
+
+            string[] sudeste = new string[] { "SP", "RJ", "MG", "ES" };
 
             NotaFiscalItem notaFiscalItem;
 
@@ -127,6 +130,9 @@ namespace Imposto.Core.Service
 
                 notaFiscalItem.NomeProduto = itemPedido.NomeProduto;
                 notaFiscalItem.CodigoProduto = itemPedido.CodigoProduto;
+
+                if (sudeste.Contains(notaFiscal.EstadoDestino))
+                    notaFiscalItem.Desconto = 0.10;
 
                 notaFiscal.ItensDaNotaFiscal.Add(notaFiscalItem);
             }

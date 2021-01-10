@@ -25,7 +25,8 @@ CREATE PROCEDURE P_NOTA_FISCAL_ITEM
     @pAliquotaIpi decimal(18,5),
     @pValorIpi decimal(18,5),
     @pNomeProduto varchar(50),
-    @pCodigoProduto varchar(20)
+    @pCodigoProduto varchar(20),
+	@pDesconto decimal(18,5)
 )
 AS
 BEGIN
@@ -40,7 +41,8 @@ BEGIN
 	   ,[AliquotaIpi]
 	   ,[ValorIpi]
 	   ,[NomeProduto]
-	   ,[CodigoProduto])
+	   ,[CodigoProduto]
+	   ,[Desconto])
 	VALUES
 	   (@pIdNotaFiscal,
 		@pCfop,
@@ -52,7 +54,8 @@ BEGIN
 		@pAliquotaIpi,
 		@pValorIpi,
 		@pNomeProduto,
-		@pCodigoProduto)
+		@pCodigoProduto,
+		@pDesconto)
 END
 GO
 GRANT EXECUTE ON dbo.P_NOTA_FISCAL_ITEM TO [public]

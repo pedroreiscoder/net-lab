@@ -59,6 +59,7 @@ namespace Imposto.Core.Data
                     command.Parameters.Add("@pValorIpi", SqlDbType.Decimal);
                     command.Parameters.Add("@pNomeProduto", SqlDbType.VarChar);
                     command.Parameters.Add("@pCodigoProduto", SqlDbType.VarChar);
+                    command.Parameters.Add("@pDesconto", SqlDbType.Decimal);
 
                     foreach (NotaFiscalItem item in notaFiscal.ItensDaNotaFiscal)
                     {
@@ -72,6 +73,7 @@ namespace Imposto.Core.Data
                         command.Parameters["@pValorIpi"].Value = item.ValorIpi;
                         command.Parameters["@pNomeProduto"].Value = item.NomeProduto;
                         command.Parameters["@pCodigoProduto"].Value = item.CodigoProduto;
+                        command.Parameters["@pDesconto"].Value = item.Desconto;
 
                         command.ExecuteNonQuery();
                     }

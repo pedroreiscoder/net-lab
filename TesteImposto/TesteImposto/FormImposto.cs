@@ -15,7 +15,6 @@ namespace TesteImposto
     public partial class FormImposto : Form
     {
         private readonly INotaFiscalService _notaFiscalService;
-        private Pedido pedido = new Pedido();
         private string[] estados = new string[] { "AC", "AL", "AP", "AM", "BA", "CE", "ES", "GO", "MA", "MT", "MS", "MG", "PA", 
                                                   "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO", "DF" };
 
@@ -54,6 +53,7 @@ namespace TesteImposto
         {
             if (ValidateChildren(ValidationConstraints.Enabled))
             {
+                Pedido pedido = new Pedido();
                 pedido.EstadoOrigem = txtEstadoOrigem.Text;
                 pedido.EstadoDestino = txtEstadoDestino.Text;
                 pedido.NomeCliente = textBoxNomeCliente.Text;
