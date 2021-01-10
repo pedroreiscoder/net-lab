@@ -13,8 +13,10 @@ namespace Imposto.Core.Data
         public void EmitirNotaFiscalXML(NotaFiscal notaFiscal)
         {
             XmlSerializer xs = new XmlSerializer(typeof(NotaFiscal));
+            string exeFolder = Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory);
+            string xmlPath = Path.Combine(exeFolder, "notafiscal.xml");
 
-            using (StreamWriter wr = new StreamWriter(@"C:\Users\pedro\OneDrive\Documentos\net-lab\TesteImposto\TesteImposto\bin\Debug\notafiscal.xml"))
+            using (StreamWriter wr = new StreamWriter(xmlPath))
                 xs.Serialize(wr, notaFiscal);
         }
 
