@@ -5,15 +5,18 @@ DECLARE @vNomeCliente varchar(50) = 'TESTE'
 DECLARE @vEstadoDestino varchar(50) = 'SP'
 DECLARE @vEstadoOrigem varchar(50) = 'RJ'
 DECLARE @vCount INT = 0
-
-DECLARE	@vIdItem int   
+ 
 DECLARE @vCfop varchar(5)
 DECLARE @vTipoIcms varchar(20)
 DECLARE @vBaseIcms decimal(18,5)
 DECLARE @vAliquotaIcms decimal(18,5)
 DECLARE @vValorIcms decimal(18,5)
+DECLARE @vBaseIpi decimal(18,5)
+DECLARE @vAliquotaIpi decimal(18,5)
+DECLARE @vValorIpi decimal(18,5)
 DECLARE @vNomeProduto varchar(50)
 DECLARE @vCodigoProduto varchar(20)
+DECLARE @vDesconto decimal(18,5)
 
 WHILE (@vCount <= 1000) 
 BEGIN
@@ -41,7 +44,6 @@ BEGIN
 		@pEstadoDestino = @vEstadoDestino,
 		@pEstadoOrigem = @vEstadoOrigem
 		
-	SET @vIdItem = 0   
 
 	IF (@vCount % 2) = 0
 		SET @vCfop = '6.102'
@@ -52,19 +54,26 @@ BEGIN
 	SET @vBaseIcms = 100.00
 	SET @vAliquotaIcms = 10
 	SET @vValorIcms = 10
+	SET @vBaseIpi = 200.00
+	SET @vAliquotaIpi = 20
+	SET @vValorIpi = 20
 	SET @vNomeProduto = 'PRODUTO DE CARGA'
 	SET @vCodigoProduto = '123-5548-555-22'
+	SET @vDesconto = 0.10
 
 	EXEC [dbo].[P_NOTA_FISCAL_ITEM]
-		@pId = @vIdItem,
 		@pIdNotaFiscal = @vIdNota,
 		@pCfop = @vCfop,
 		@pTipoIcms = @vTipoIcms,
 		@pBaseIcms = @vBaseIcms,
 		@pAliquotaIcms = @vAliquotaIcms,
 		@pValorIcms = @vValorIcms,
+		@pBaseIpi = @vBaseIpi,
+		@pAliquotaIpi = @vAliquotaIpi,
+		@pValorIpi = @vValorIpi,
 		@pNomeProduto = @vNomeProduto,
-		@pCodigoProduto = @vCodigoProduto
+		@pCodigoProduto = @vCodigoProduto,
+		@pDesconto = @vDesconto
 
 	SET @vCount = @vCount + 1
 END
